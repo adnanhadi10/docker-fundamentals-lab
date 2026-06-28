@@ -2,15 +2,19 @@
 
 
 
+A hands-on Docker fundamentals project completed on an Ubuntu 24.04 virtual machine hosted on \*\*Google Cloud Platform (GCP)\*\*. This project focuses on understanding Docker concepts through practical experimentation rather than simply executing commands.
+
+
+
+\---
+
+
+
 \## Project Overview
 
 
 
-This project documents my hands-on journey learning Docker fundamentals using an Ubuntu virtual machine hosted on Google Cloud Platform (GCP).
-
-
-
-The primary objective was to understand Docker from first principles rather than simply memorizing commands. Throughout the lab, I explored how images, containers, filesystems, and Docker resources work by performing practical experiments and verifying each concept through the command line.
+The goal of this lab was to build a solid understanding of Docker by exploring how images, containers, filesystems, and Docker resources interact. Every concept was verified through command-line experiments, helping develop a practical understanding of Docker's architecture and lifecycle.
 
 
 
@@ -28,17 +32,17 @@ The primary objective was to understand Docker from first principles rather than
 
 \- Pull images from Docker Hub
 
-\- Understand the relationship between images and containers
+\- Understand Docker images and containers
 
 \- Learn the Docker container lifecycle
 
 \- Explore interactive containers
 
-\- Understand container filesystem isolation
+\- Understand filesystem isolation
 
-\- Verify data persistence after stopping containers
+\- Verify container persistence
 
-\- Learn Docker resource cleanup and dependency management
+\- Learn Docker cleanup and dependency management
 
 
 
@@ -56,7 +60,11 @@ The primary objective was to understand Docker from first principles rather than
 
 \- Docker Engine
 
-\- Linux Command Line (Bash)
+\- Linux (Bash)
+
+\- Git
+
+\- GitHub
 
 
 
@@ -64,31 +72,35 @@ The primary objective was to understand Docker from first principles rather than
 
 
 
-\## Concepts Learned
+\# Docker Architecture
 
 
 
-\- Docker Images
+```text
 
-\- Docker Containers
+&#x20;                Docker Hub
 
-\- Docker Hub
+&#x20;                     │
 
-\- Container Lifecycle
+&#x20;                     ▼
 
-\- Interactive Containers (`docker run -it`)
+&#x20;               Ubuntu Image
 
-\- Filesystem Isolation
+&#x20;                     │
 
-\- Container Persistence
+&#x20;       ┌─────────────┴─────────────┐
 
-\- Docker Logs
+&#x20;       ▼                           ▼
 
-\- Docker Inspect
+&#x20;Container 1                  Container 2
 
-\- Docker Cleanup (`docker rm`, `docker rmi`)
+&#x20;  (Ubuntu)                  (Hello World)
 
-\- Image and Container Dependencies
+
+
+Each container has its own isolated writable filesystem.
+
+```
 
 
 
@@ -96,15 +108,57 @@ The primary objective was to understand Docker from first principles rather than
 
 
 
-\## Lab Progress
+\## Commands Used
 
 
 
-\### 1. Provisioned an Ubuntu VM on Google Cloud
+```bash
+
+docker --version
+
+docker info
+
+docker images
+
+docker ps
+
+docker ps -a
+
+docker run hello-world
+
+docker run -it ubuntu bash
+
+docker start -i
+
+docker logs
+
+docker inspect
+
+docker rm
+
+docker rmi
+
+```
 
 
 
-Configured a Linux virtual machine to serve as the Docker host.
+\---
+
+
+
+\## Lab Walkthrough
+
+
+
+\### 1. Provisioned an Ubuntu Virtual Machine
+
+
+
+Created an Ubuntu VM on Google Cloud Platform to serve as the Docker host.
+
+
+
+\---
 
 
 
@@ -112,35 +166,51 @@ Configured a Linux virtual machine to serve as the Docker host.
 
 
 
-Added Docker's official repository and installed Docker Engine.
+Configured Docker's official repository and installed Docker Engine.
 
 
 
-\### 3. Verified Docker Installation
+\---
 
 
 
-Confirmed Docker was running successfully using version and test commands.
+\### 3. Verified Installation
 
 
 
-\### 4. Ran the Hello World Container
+Verified Docker was successfully installed and operational.
 
 
 
-Pulled the official Docker image from Docker Hub and executed the container successfully.
+\---
 
 
 
-\### 5. Explored Docker Images and Containers
+\### 4. Executed the Hello World Container
 
 
 
-Learned the difference between reusable images and running container instances.
+Downloaded the official Docker image from Docker Hub and confirmed successful execution.
 
 
 
-\### 6. Investigated Container Isolation
+\---
+
+
+
+\### 5. Explored Images and Containers
+
+
+
+Learned the relationship between reusable Docker images and container instances.
+
+
+
+\---
+
+
+
+\### 6. Investigated Filesystem Isolation
 
 
 
@@ -148,15 +218,23 @@ Created a file inside an Ubuntu container and verified it was isolated from the 
 
 
 
+\---
+
+
+
 \### 7. Verified Container Persistence
 
 
 
-Restarted the same container and confirmed the file remained available.
+Stopped and restarted the same container to confirm its writable filesystem remained intact.
 
 
 
-\### 8. Cleaned Up Docker Resources
+\---
+
+
+
+\### 8. Cleaned Docker Resources
 
 
 
@@ -168,11 +246,15 @@ Removed containers and images while observing Docker's dependency protection mec
 
 
 
-\## Screenshots
+\# Project Screenshots
 
 
 
-Screenshots documenting each milestone are available in the \*\*screenshots/\*\* directory.
+\## Docker Installation
+
+
+
+!\[Docker Installation](screenshots/04-docker-installation-success.png)
 
 
 
@@ -180,23 +262,59 @@ Screenshots documenting each milestone are available in the \*\*screenshots/\*\*
 
 
 
-\## Key Takeaways
+\## Docker Container Lifecycle
 
 
 
-\- Images are reusable templates used to create containers.
+!\[Container Lifecycle](screenshots/06-docker-container-lifecycle.png)
+
+
+
+\---
+
+
+
+\## Filesystem Isolation \& Persistence
+
+
+
+!\[Filesystem Isolation](screenshots/07-container-filesystem-isolation-and-persistence.png)
+
+
+
+\---
+
+
+
+\## Docker Cleanup
+
+
+
+!\[Docker Cleanup](screenshots/08-docker-cleanup-and-final-state.png)
+
+
+
+\---
+
+
+
+\# Lessons Learned
+
+
+
+\- Docker images act as reusable blueprints.
 
 \- Multiple containers can be created from a single image.
 
 \- Containers have isolated filesystems.
 
-\- Stopping a container preserves its filesystem.
+\- Stopping a container preserves its writable layer.
 
 \- Deleting a container removes its writable filesystem.
 
-\- Docker prevents images from being deleted while dependent containers still exist.
+\- Docker prevents deleting images that are still referenced by containers.
 
-\- Verifying every action is an important engineering practice.
+\- Verifying every action after execution simplifies troubleshooting.
 
 
 
@@ -204,21 +322,43 @@ Screenshots documenting each milestone are available in the \*\*screenshots/\*\*
 
 
 
-\## Skills Demonstrated
+\# Skills Demonstrated
 
 
 
-\- Docker installation and configuration
+\- Docker Installation
 
-\- Linux command line
+\- Docker Image Management
 
-\- Container lifecycle management
+\- Docker Container Management
 
-\- Docker troubleshooting
+\- Linux Command Line
 
-\- Resource cleanup
+\- Docker Troubleshooting
 
-\- Filesystem isolation
+\- Filesystem Isolation
 
-\- Docker fundamentals
+\- Resource Cleanup
+
+\- Git
+
+\- GitHub Documentation
+
+
+
+\---
+
+
+
+\# Future Improvements
+
+
+
+\- Learn Docker Volumes
+
+\- Build a Dockerized Web Application
+
+\- Deploy Multi-Container Applications using Docker Compose
+
+\- Learn Kubernetes Container Orchestration
 
